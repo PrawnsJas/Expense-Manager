@@ -6,7 +6,7 @@
 
         <title>Laravel</title>
         @vite('resources/js/app.js')
-        @ineritaHead
+        @inertiaHead
     </head>
     <body>
         @inertia

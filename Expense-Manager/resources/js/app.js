@@ -1,19 +1,29 @@
 import './bootstrap';
-import {createApp, h} from "vue";
-import {createInertiaApp} from "@inertiajs/vue3";
-import MainLayout from "@Pages/Layouts/MainLayout.vue";
+import { createApp, h } from "vue";
+import { createInertiaApp } from "@inertiajs/vue3";
+import MainLayout from "./Pages/Layouts/MainLayout.vue";
 
 createInertiaApp({
     resolve: async (name) => {
-        const pages = import.meta.glob("./Pages//**/*.vue");
+        const pages = import.meta.glob("./Pages/**/*.vue");
 
-        const page = await pages['./Pages/${name}.vue']();
-        page.default.layout = page.default.layout || MainLayout;
+        // Use the name directly without template literals
+        const page = pages[`./Pages/${name}.vue`];
 
-        return page;
+        // Check if the page exists before calling it
+        if (page) {
+            const component = await page(); // Call the function to get the component
+            component.default.layout = component.default.layout || MainLayout;
+            return component;
+        } else {
+            console.error(`Page not found: ${name}`);
+            // Optionally, handle the case where the page doesn't exist
+            return null; // or return a default component
+        }
     },
-    setup({ el, App, props, plugin}) {
+    setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
-        .use(plugin).mount(el);
+            .use(plugin)
+            .mount(el);
     }
-})
+});
