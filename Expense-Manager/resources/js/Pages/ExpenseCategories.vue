@@ -1,69 +1,102 @@
 <template>
   <div>
-      <h1>Expense Categories Management</h1>
-      <table class="table">
-          <thead>
-              <tr>
-                  <th>Category</th>
-                  <th>Actions</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr v-for="category in categories" :key="category.id">
-                  <td>{{ category.name }}</td>
-                  <td>
-                      <button 
-                          @click="showUpdateModal(category)" 
-                          class="btn btn-warning"
-                      >
-                          Update
-                      </button>
-                      <button 
-                          @click="deleteCategory(category)" 
-                          class="btn btn-danger"
-                      >
-                          Delete
-                      </button>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
+    <h1>Expense Categories Management</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="category in categories" :key="category.id">
+          <td>{{ category.name }}</td>
+          <td>
+            <button 
+              @click="showUpdateModal(category)" 
+              class="btn btn-warning"
+            >
+              Update
+            </button>
+            <button 
+              @click="deleteCategory(category)" 
+              class="btn btn-danger"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-      <!-- Placeholder for the modal -->
-      <div v-if="showModal">
-          <p>Update Category Modal ({{ selectedCategory.name }})</p>
-          <!-- Add your modal form here for updating category information -->
-          <button @click="showModal = false">Close</button>
-      </div>
+    <div v-if="showModal">
+      <p>Update Category Modal ({{ selectedCategory.name }})</p>
+      <button @click="showModal = false">Close</button>
+    </div>
 
-      <button @click="addCategory" class="btn btn-primary">Add Category</button>
+    <!-- Add Category Modal -->
+    <AddCategoryModal 
+      v-if="showAddCategoryModal" 
+      @close="showAddCategoryModal = false" 
+      @categoryAdded="fetchCategories" 
+    />
+
+    <button @click="showAddCategoryModal = true" class="btn btn-primary">Add Category</button>
   </div>
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
+import { Inertia } from '@inertiajs/inertia';
+import AddCategoryModal from './Components/AddCategoryModal.vue';  
+
 export default {
-  data() {
-      return {
-          categories: [
-              { id: 1, name: 'Travel' },
-              { id: 2, name: 'Food' }
-          ],
-          showModal: false,
-          selectedCategory: null
-      };
+  props: {
+    categories: Array, 
   },
-  showUpdateModal(category) {
-      this.selectedCategory = category;
-      this.showModal = true;
+  components: {
+    AddCategoryModal,
   },
-  deleteCategory(category) {
-      // Handle delete logic here
-      alert(`Deleting category: ${category.name}`);
+  setup(props) {
+    const categories = ref(props.categories); 
+    const showModal = ref(false);
+    const showAddCategoryModal = ref(false);
+    const selectedCategory = ref(null);
+
+    const fetchCategories = () => {
+      Inertia.get('/expense-management/categories', {}, {
+        preserveState: true,
+        onSuccess: (page) => {
+          categories.value = page.props.categories; 
+        },
+      });
+    };
+
+    const showUpdateModal = (category) => {
+      selectedCategory.value = category;
+      showModal.value = true;
+    };
+
+    const deleteCategory = (category) => {
+      if (confirm(`Are you sure you want to delete category: ${category.name}?`)) {
+        Inertia.delete(`/expense-management/categories/${category.id}`, {
+          onSuccess: fetchCategories,
+        });
+      }
+    };
+
+    onMounted(fetchCategories);
+
+    return {
+      categories,
+      showModal,
+      showAddCategoryModal,
+      selectedCategory,
+      fetchCategories,
+      showUpdateModal,
+      deleteCategory,
+    };
   },
-  addCategory() {
-      // Logic to add a new category
-      alert('Add category logic here');
-  }
 };
 </script>
 

@@ -26,7 +26,13 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('password'),
                 'role_id' => 2, // User
             ],
+            // Add a default role if needed
+            [
+                'name' => 'Default User',
+                'email' => 'default@example.com',
+                'password' => bcrypt('password'),
+                'role_id' => 2, // Default to User role
+            ],
         ]);
     }
-    
 }
