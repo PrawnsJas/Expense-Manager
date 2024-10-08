@@ -1,4 +1,4 @@
-import './bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import MainLayout from "./Pages/Layouts/MainLayout.vue";
@@ -18,7 +18,7 @@ createInertiaApp({
         } else {
             console.error(`Page not found: ${name}`);
             // Optionally, handle the case where the page doesn't exist
-            return null; // or return a default component
+            return null;
         }
     },
     setup({ el, App, props, plugin }) {

@@ -1,92 +1,71 @@
 <template>
     <div class="sidebar">
-      <nav>
-        <ul>
-          <li>
-            <router-link to="/dashboard">Dashboard</router-link>
-          </li>
-          <li>
-            <div @click="toggleUserManagement" class="sidebar-item">
-              User Management
-              <span class="caret" :class="{ open: isUserManagementOpen }">▼</span>
-            </div>
-            <ul v-if="isUserManagementOpen">
-              <li><router-link to="/user-management/roles">Roles</router-link></li>
-              <li><router-link to="/user-management/users">Users</router-link></li>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark flex-column" style="height: 100vh;">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <Link class="nav-link" href="/">Home</Link>
+                </li>
+                <li class="nav-item">
+                    <Link class="nav-link" href="/dashboard">Dashboard</Link>
+                </li>
+
+                <li class="nav-item">
+                    <h5 class="text-white">User Management</h5>
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <Link class="nav-link" href="/user-management/roles">Roles</Link>
+                        </li>
+                        <li class="nav-item">
+                            <Link class="nav-link" href="/user-management/users">Users</Link>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <h5 class="text-white">Expense Management</h5>
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <Link class="nav-link" href="/expense-management/categories">Expense Categories</Link>
+                        </li>
+                        <li class="nav-item">
+                            <Link class="nav-link" href="/expense-management/expenses">Expenses</Link>
+                        </li>
+                    </ul>
+                </li>
             </ul>
-          </li>
-          <li>
-            <div @click="toggleExpenseManagement" class="sidebar-item">
-              Expense Management
-              <span class="caret" :class="{ open: isExpenseManagementOpen }">▼</span>
-            </div>
-            <ul v-if="isExpenseManagementOpen">
-              <li><router-link to="/expense-management/categories">Expense Categories</router-link></li>
-              <li><router-link to="/expense-management/expenses">Expenses</router-link></li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
+        </nav>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        isUserManagementOpen: false,
-        isExpenseManagementOpen: false
-      };
-    },
-    methods: {
-      toggleUserManagement() {
-        this.isUserManagementOpen = !this.isUserManagementOpen;
-      },
-      toggleExpenseManagement() {
-        this.isExpenseManagementOpen = !this.isExpenseManagementOpen;
-      }
+</template>
+
+<script>
+import { Link } from '@inertiajs/vue3';
+
+export default {
+    components: {
+        Link
     }
-  };
-  </script>
-  
-  <style scoped>
-  .sidebar {
-    width: 250px;
-    background-color: #2c3e50;
-    color: white;
-    height: 100vh;
-    padding: 20px;
-  }
-  
-  .sidebar nav ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .sidebar-item {
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .sidebar-item .caret {
-    float: right;
-  }
-  
-  .caret.open {
-    transform: rotate(180deg);
-  }
-  
-  ul li {
-    margin: 5px 0;
-  }
-  
-  a {
-    text-decoration: none;
-    color: #ecf0f1;
-  }
-  
-  a:hover {
-    color: #3498db;
-  }
-  </style>
-  
+};
+</script>
+
+<style scoped>
+.sidebar {
+    width: 250px; /* Adjust width as needed */
+}
+
+/* Additional styles for headers */
+h5 {
+    margin: 10px 0; /* Space above and below the headers */
+}
+
+.nav-link {
+    padding-left: 10px; /* Additional padding for nav links */
+}
+
+.nav-link:hover {
+    background-color: #495057; /* Background on hover for links */
+}
+
+.nav-link.active {
+    background-color: #495057; /* Active background for the current link */
+}
+</style>
