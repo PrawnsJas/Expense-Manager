@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// Redirect root URL to Dashboard
 Route::get('/', function () {
-    return Inertia::render('Home');
+    return redirect('/dashboard'); // Redirect to Dashboard
 });
 
 Route::get('/dashboard', function () {

@@ -6,19 +6,6 @@
                 <li class="nav-item">
                     <Link class="nav-link" href="/dashboard">Dashboard</Link>
                 </li>
-
-                <li class="nav-item">
-                    <h5 class="text-white">User Management</h5>
-                    <ul class="nav flex-column ms-3">
-                        <li class="nav-item">
-                            <Link class="nav-link" href="/user-management/roles">Roles</Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link class="nav-link" href="/user-management/users">Users</Link>
-                        </li>
-                    </ul>
-                </li>
-
                 <li class="nav-item">
                     <h5 class="text-white">Expense Management</h5>
                     <ul class="nav flex-column ms-3">
