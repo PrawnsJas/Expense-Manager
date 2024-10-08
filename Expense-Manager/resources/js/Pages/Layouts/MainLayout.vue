@@ -1,17 +1,16 @@
 <template>
   <div class="app-layout">
-    <header> <!-- This stays the same for all pages -->
-      <h1>My Application</h1>
-      <!-- <nav>...</nav> -->
+    <header>
+      <h2>BudgetBoost</h2>
     </header>
     <div class="layout">
-      <Sidebar /> <!-- Sidebar stays the same for all pages -->
+      <Sidebar /> 
       <main class="main-content">
-        <slot></slot> <!-- Page content changes here -->
+        <slot></slot> 
       </main>
     </div>
-    <footer> <!-- Footer stays the same -->
-      &copy; 2024 My Application
+    <footer> 
+      &copy; 2024 BudgetBoost
     </footer>
   </div>
 </template>
@@ -30,21 +29,20 @@ export default {
 .app-layout {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full height of the viewport */
+  height: 100vh; 
 }
 
 .layout {
-  display: flex; /* Use flexbox for layout */
-  flex: 1; /* Take up the remaining space between header and footer */
+  display: flex; 
+  flex: 1; 
 }
 
 main {
-  flex: 1; /* Take remaining space in layout */
-  padding: 20px; /* Add some padding */
-  overflow-y: auto; /* Allow scrolling for long content */
+  flex: 1; 
+  padding: 20px; 
+  overflow-y: auto; 
 }
 
-/* Optional styles for header and footer */
 header {
   background-color: #f8f9fa;
   padding: 10px 20px;
