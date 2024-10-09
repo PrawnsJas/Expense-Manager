@@ -12,17 +12,15 @@ createInertiaApp({
 
         if (page) {
             const component = await page();
-            component.default.layout = component.default.layout || MainLayout; // Default layout
-
-            // Check the user's role from the session
-            const userRole = sessionStorage.getItem('user_role'); // Adjust this to where you're storing the role
+            component.default.layout = component.default.layout || MainLayout;
+            const userRole = sessionStorage.getItem('user_role');
             
             if (name === 'Login') {
-                component.default.layout = LoginLayout; // Use LoginLayout for the login page
+                component.default.layout = LoginLayout; 
             } else if (userRole === 'Administrator') {
-                component.default.layout = MainLayout; // Use MainLayout for admin users
+                component.default.layout = MainLayout;
             } else if (userRole === 'User') {
-                component.default.layout = UserLayout; // Use UserLayout for normal users
+                component.default.layout = UserLayout;
             }
 
             return component;

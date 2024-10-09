@@ -7,7 +7,7 @@
     <div class="layout">
       <Sidebar />
       <main class="main-content">
-        <slot></slot> <!-- Dynamic content slot -->
+        <slot></slot> 
       </main>
     </div>
     <footer> 
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     logout() {
-      Inertia.post('/logout'); // Handle logout with Inertia.js
+      Inertia.post('/logout');
     },
   },
 };

@@ -31,8 +31,8 @@ export default {
     });
 
     const submitForm = () => {
-      emit('submit', form.value); // Emit the form data to the parent
-      form.value.name = ''; // Reset form after submission
+      emit('submit', form.value);
+      form.value.name = '';
       form.value.description = '';
     };
 

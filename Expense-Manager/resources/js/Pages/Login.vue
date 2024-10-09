@@ -39,10 +39,10 @@ export default {
 form {
   display: flex;
   flex-direction: column;
-  width: 300px; /* Adjust the width of the login form */
+  width: 300px;
 }
 
 div {
-  margin-bottom: 15px; /* Space between form fields */
+  margin-bottom: 15px;
 }
 </style>

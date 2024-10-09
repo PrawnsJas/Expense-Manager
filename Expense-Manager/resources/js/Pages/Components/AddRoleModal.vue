@@ -1,4 +1,3 @@
-<!-- js/Pages/Components/AddRoleModal.vue -->
 <template>
     <div class="modal">
       <div class="modal-content">

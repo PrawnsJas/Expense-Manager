@@ -44,7 +44,7 @@ export default {
     AddCategoryModal,
   },
   setup(props) {
-    const categories = ref([...props.categories]); // Copying initial categories to reactive ref
+    const categories = ref([...props.categories]);
     const showAddCategoryModal = ref(false);
 
     const fetchCategories = () => {
@@ -59,11 +59,11 @@ export default {
     const addCategory = (formData) => {
       Inertia.post('/expense-management/categories', formData, {
         onSuccess: (response) => {
-          categories.value.push(response.category); // Add new category to the list
-          closeAddCategoryModal(); // Close the modal
+          categories.value.push(response.category);
+          closeAddCategoryModal();
         },
         onError: () => {
-          console.error('Failed to add category'); // Handle error
+          console.error('Failed to add category');
         },
       });
     };

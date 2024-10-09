@@ -33,6 +33,7 @@
         </table>
 
         <AddRoleModal v-if="showAddRoleModal" @close="showAddRoleModal = false" />
+        <UpdateRoleModal v-if="showModal" :role="selectedRole" @close="showModal = false" />
 
         <button @click="showAddRoleModal = true" class="btn btn-primary">Add Role</button>
     </div>
@@ -42,6 +43,7 @@
 import { ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import AddRoleModal from './Components/AddRoleModal.vue';
+import UpdateRoleModal from './Components/UpdateRoleModal.vue';
 
 export default {
     props: {
@@ -49,6 +51,7 @@ export default {
     },
     components: {
         AddRoleModal,
+        UpdateRoleModal,
     },
     setup(props) {
         const showAddRoleModal = ref(false);
@@ -56,8 +59,8 @@ export default {
         const selectedRole = ref(null);
 
         const showUpdateModal = (role) => {
-            selectedRole.value = role;
-            showModal.value = true;
+            selectedRole.value = role; // Set the selected role
+            showModal.value = true; // Show the modal
         };
 
         const deleteRole = (role) => {

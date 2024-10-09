@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('role')->get(); // Eager load roles
+        $users = User::with('role')->get();
         $roles = Role::all();
         return Inertia::render('Users', [
             'users' => $users,
@@ -20,17 +20,11 @@ class UserController extends Controller
     }
     public function update($id)
     {
-        // Logic to update the user based on $id
-        // ...
-
-        return redirect()->route('users.index'); // Redirect back to users index after updating
+        return redirect()->route('users.index');
     }
 
     public function destroy($id)
     {
-        // Logic to delete the user based on $id
-        // ...
-
-        return redirect()->route('users.index'); // Redirect back to users index after deletion
+        return redirect()->route('users.index');
     }
 }
