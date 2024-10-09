@@ -23,14 +23,17 @@ class ExpenseCategoryController extends Controller
         // Validate the incoming request
         $request->validate([
             'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000', 
         ]);
-
+    
         // Create a new expense category
-        ExpenseCategory::create($request->only('name'));
-
-        // Redirect back to the categories index after creating
-        return redirect()->route('expense-categories.index'); 
+        $category = ExpenseCategory::create($request->only('name', 'description'));
+    
+        // Return the newly created category data
+        return response()->json(['category' => $category], 201); // Send JSON response
     }
+    
+    
     public function update($id)
     {
         // Logic to update the category based on $id

@@ -41,6 +41,7 @@ Route::put('/user-management/roles/{id}', [RoleController::class, 'update'])->na
 Route::post('/user-management/roles', [RoleController::class, 'store']);
 
 // Update expense category
+Route::post('/expense-management/categories', [ExpenseCategoryController::class, 'store'])->name('categories.store');
 Route::put('/expense-management/categories/{id}', [ExpenseCategoryController::class, 'update'])->name('categories.update');
 
 // Update expense

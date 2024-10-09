@@ -1,7 +1,8 @@
 <template>
   <div class="app-layout">
     <header>
-      <h2>BudgetBoost</h2>
+      <h4>BudgetBoost (Admin)</h4>
+      <button class="logout-btn" @click="logout">Logout</button> <!-- Added logout button -->
     </header>
     <div class="layout">
       <Sidebar /> 
@@ -17,11 +18,17 @@
 
 <script>
 import Sidebar from '../Components/AdminSideBar.vue';
+import { Inertia } from '@inertiajs/inertia';
 
 export default {
   components: {
-    Sidebar
-  }
+    Sidebar,
+  },
+  methods: {
+    logout() {
+      Inertia.post('/logout'); // Handle logout through Inertia.js post request
+    },
+  },
 };
 </script>
 
@@ -45,7 +52,22 @@ main {
 
 header {
   background-color: #f8f9fa;
-  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  padding: 10px 50px;
+}
+
+.logout-btn {
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  color: #0056b3;
 }
 
 footer {

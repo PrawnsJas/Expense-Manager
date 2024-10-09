@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('category_id')->constrained('expense_categories');
             $table->decimal('amount', 10, 2);
-            $table->text('description');
             $table->date('date');
             $table->timestamps();
         });

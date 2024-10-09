@@ -5,40 +5,26 @@
       <thead>
         <tr>
           <th>Category</th>
+          <th>Description</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="category in categories" :key="category.id">
           <td>{{ category.name }}</td>
+          <td>{{ category.description }}</td>
           <td>
-            <button 
-              @click="showUpdateModal(category)" 
-              class="btn btn-warning"
-            >
-              Update
-            </button>
-            <button 
-              @click="deleteCategory(category)" 
-              class="btn btn-danger"
-            >
-              Delete
-            </button>
+            <button @click="showUpdateModal(category)" class="btn btn-warning">Update</button>
+            <button @click="deleteCategory(category)" class="btn btn-danger">Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <div v-if="showModal">
-      <p>Update Category Modal ({{ selectedCategory.name }})</p>
-      <button @click="showModal = false">Close</button>
-    </div>
-
-    <!-- Add Category Modal -->
     <AddCategoryModal 
       v-if="showAddCategoryModal" 
-      @close="showAddCategoryModal = false" 
-      @categoryAdded="fetchCategories" 
+      @close="closeAddCategoryModal" 
+      @submit="addCategory" 
     />
 
     <button @click="showAddCategoryModal = true" class="btn btn-primary">Add Category</button>
@@ -58,13 +44,11 @@ export default {
     AddCategoryModal,
   },
   setup(props) {
-    const categories = ref(props.categories); 
-    const showModal = ref(false);
+    const categories = ref([...props.categories]); // Copying initial categories to reactive ref
     const showAddCategoryModal = ref(false);
-    const selectedCategory = ref(null);
 
     const fetchCategories = () => {
-      Inertia.get('/expense-management/categories', {}, {
+      Inertia.get('/expense-management/categories', {
         preserveState: true,
         onSuccess: (page) => {
           categories.value = page.props.categories; 
@@ -72,33 +56,34 @@ export default {
       });
     };
 
-    const showUpdateModal = (category) => {
-      selectedCategory.value = category;
-      showModal.value = true;
+    const addCategory = (formData) => {
+      Inertia.post('/expense-management/categories', formData, {
+        onSuccess: (response) => {
+          categories.value.push(response.category); // Add new category to the list
+          closeAddCategoryModal(); // Close the modal
+        },
+        onError: () => {
+          console.error('Failed to add category'); // Handle error
+        },
+      });
     };
 
-    const deleteCategory = (category) => {
-      if (confirm(`Are you sure you want to delete category: ${category.name}?`)) {
-        Inertia.delete(`/expense-management/categories/${category.id}`, {
-          onSuccess: fetchCategories,
-        });
-      }
+    const closeAddCategoryModal = () => {
+      showAddCategoryModal.value = false;
     };
 
     onMounted(fetchCategories);
 
     return {
       categories,
-      showModal,
       showAddCategoryModal,
-      selectedCategory,
-      fetchCategories,
-      showUpdateModal,
-      deleteCategory,
+      addCategory,
+      closeAddCategoryModal,
     };
   },
 };
 </script>
+
 
 <style scoped>
 .table {

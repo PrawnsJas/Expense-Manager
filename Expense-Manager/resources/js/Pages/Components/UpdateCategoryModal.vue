@@ -10,7 +10,7 @@
 
         <div class="form-group">
           <label for="description">Category Description:</label>
-          <textarea v-model="form.description" id="description"></textarea>
+          <textarea v-model="form.description" id="description" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Add Category</button>
@@ -22,18 +22,24 @@
 
 <script>
 import { ref } from 'vue';
+import { Inertia } from '@inertiajs/inertia';
 
 export default {
   setup(props, { emit }) {
     const form = ref({
       name: '',
-      description: '',
+      description: '', 
     });
 
     const submitForm = () => {
-      emit('submit', form.value); // Emit the form data to the parent
-      form.value.name = ''; // Reset form after submission
-      form.value.description = '';
+      Inertia.post('/expense-management/categories', form.value, {
+        onSuccess: () => {
+          emit('close');
+          emit('categoryAdded');
+          form.value.name = ''; 
+          form.value.description = '';
+        },
+      });
     };
 
     return {
@@ -43,7 +49,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .modal {
