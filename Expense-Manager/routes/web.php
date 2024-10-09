@@ -9,6 +9,10 @@ use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\Auth\LoginController;
 
+Route::get('/', function () {
+    return redirect()->route('login'); // Redirect to the login route
+});
+
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // Add a logout route
