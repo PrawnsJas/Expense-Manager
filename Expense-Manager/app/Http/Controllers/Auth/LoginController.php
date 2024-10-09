@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log; 
 
 class LoginController extends Controller
 {
@@ -17,7 +18,6 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -25,8 +25,13 @@ class LoginController extends Controller
 
         // Attempt to log the user in
         if (Auth::attempt($credentials)) {
+            $user = Auth::user(); // Get the authenticated user
+
+            // Store the user's role in the session
+            session(['user_role' => $user->role->name]); // Assuming the role is accessible via the relationship
+
             // If successful, redirect to intended page or home
-            return redirect()->intended('/home'); // Change '/home' to your intended route
+            return redirect()->intended('/dashboard'); // Change '/dashboard' to your intended route
         }
 
         // If authentication fails, throw a validation exception
@@ -35,10 +40,24 @@ class LoginController extends Controller
         ]);
     }
 
-    // Log the user out
     public function logout(Request $request)
     {
-        Auth::logout(); // Log the user out
-        return redirect('/login'); // Redirect to the login page
+        // Log the user out
+        Auth::logout();
+    
+        // Log the action
+        Log::info('User logged out.', [
+            'user_id' => Auth::id(), // This will be null since the user is logged out
+            'timestamp' => now(),
+        ]);
+    
+        // Clear the user role from the session
+        session()->forget('user_role');
+    
+        // Log that the user role has been cleared
+        Log::info('User role cleared from session.');
+    
+        // Redirect to the login page
+        return redirect('/login');
     }
 }

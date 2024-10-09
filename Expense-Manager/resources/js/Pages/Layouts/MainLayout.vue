@@ -2,12 +2,12 @@
   <div class="app-layout">
     <header>
       <h4>BudgetBoost (Admin)</h4>
-      <button class="logout-btn" @click="logout">Logout</button> <!-- Added logout button -->
+      <button class="logout-btn" @click="logout">Logout</button>
     </header>
     <div class="layout">
-      <Sidebar /> 
+      <Sidebar />
       <main class="main-content">
-        <slot></slot> 
+        <slot></slot>
       </main>
     </div>
     <footer> 
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     logout() {
-      Inertia.post('/logout'); // Handle logout through Inertia.js post request
+      Inertia.post('/logout');
     },
   },
 };
@@ -40,7 +40,7 @@ export default {
 }
 
 .layout {
-  display: flex; 
+  display: flex;
   flex: 1; 
 }
 

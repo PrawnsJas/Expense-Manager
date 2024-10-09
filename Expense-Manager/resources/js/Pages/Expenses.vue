@@ -14,7 +14,7 @@
         <tr v-for="expense in expenses" :key="expense.id">
           <td>{{ expense.category.name }}</td>
           <td>{{ expense.amount }}</td>
-          <td>{{ expense.entry_date }}</td>
+          <td>{{ expense.date }}</td>
           <td>
             <button @click="showUpdateModal(expense)" class="btn btn-warning">Update</button>
             <button @click="deleteExpense(expense)" class="btn btn-danger">Delete</button>
@@ -25,13 +25,13 @@
 
     <AddExpenseModal 
       v-if="showAddExpenseModal" 
-      :categories="categories" 
+      :expenseCategory="expenseCategory" 
       @close="showAddExpenseModal = false" 
     />
 
     <UpdateExpenseModal 
       v-if="showUpdateModalFlag" 
-      :categories="categories" 
+      :expenseCategory="expenseCategory" 
       :expense="selectedExpense" 
       @close="showUpdateModalFlag = false" 
     />
@@ -49,7 +49,7 @@ import UpdateExpenseModal from './Components/UpdateExpenseModal.vue';
 export default {
   props: {
     expenses: Array,
-    categories: Array,
+    expenseCategory: Array,
   },
   components: {
     AddExpenseModal,
@@ -57,16 +57,16 @@ export default {
   },
   setup(props) {
     const expenses = ref(props.expenses);
-    const categories = ref(props.categories);
+    const expenseCategory = ref(props.expenseCategory);
     const showAddExpenseModal = ref(false);
     const showUpdateModalFlag = ref(false);
     const selectedExpense = ref(null);
-
+    console.log(props.expenseCategory);
     const fetchExpenses = () => {
       Inertia.get('/expense-management/expenses', {}, {
         preserveState: true,
         onSuccess: (page) => {
-          expenses.value = page.props.expenses; // Ensure props are passed from the backend
+          expenses.value = page.props.expenses;
         },
       });
     };
@@ -79,7 +79,7 @@ export default {
     const deleteExpense = (expense) => {
       if (confirm(`Are you sure you want to delete expense: ${expense.name}?`)) {
         Inertia.delete(`/expense-management/expenses/${expense.id}`, {
-          onSuccess: fetchExpenses, // Refresh expenses after deletion
+          onSuccess: fetchExpenses, 
         });
       }
     };
@@ -88,7 +88,7 @@ export default {
 
     return {
       expenses,
-      categories,
+      expenseCategory,
       showAddExpenseModal,
       showUpdateModalFlag,
       selectedExpense,

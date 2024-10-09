@@ -46,7 +46,7 @@ Route::put('/expense-management/categories/{id}', [ExpenseCategoryController::cl
 
 // Update expense
 Route::put('/expense-management/expenses/{id}', [ExpenseController::class, 'update'])->name('expenses.update');
-Route::post('/user-management/expenses', [ExpenseController::class, 'store']);
+Route::post('/expense-management/expenses', [ExpenseController::class, 'store']);
 
 // Delete user
 Route::delete('/user-management/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');

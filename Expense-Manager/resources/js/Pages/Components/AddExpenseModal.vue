@@ -6,7 +6,10 @@
         <div class="form-group">
           <label for="category">Expense Category:</label>
           <select v-model="form.category" id="category" required>
-            <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+            <option value="" disabled>Select a category</option>
+            <option v-for="category in expenseCategory" :key="category.id" :value="category.id">
+              {{ category.name }}
+            </option>
           </select>
         </div>
         <div class="form-group">
@@ -37,7 +40,7 @@ import { Inertia } from '@inertiajs/inertia';
 
 export default {
   props: {
-    categories: Array,
+    expenseCategory: Array,
   },
   setup(props, { emit }) {
     const form = ref({
@@ -51,7 +54,7 @@ export default {
     const submitForm = () => {
       Inertia.post('/expense-management/expenses', form.value, {
         onSuccess: () => {
-          emit('close'); // Close modal
+          emit('close');
           form.value.category = '';
           form.value.amount = '';
           form.value.entryDate = '';

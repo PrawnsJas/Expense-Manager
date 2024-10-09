@@ -8,7 +8,7 @@
         @vite('resources/js/app.js')
         @inertiaHead
     </head>
-    <body>
+    <body data-user-role="{{ Auth::check() ? Auth::user()->role->name : 'Guest' }}">
         @inertia
     </body>
 </html>
