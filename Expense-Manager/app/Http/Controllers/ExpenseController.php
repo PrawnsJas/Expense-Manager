@@ -53,7 +53,7 @@ class ExpenseController extends Controller
             ->get();
     
         return Inertia::render('Dashboard', [
-            'expenses' => $expenses,
+            'expenses' => $expenses, 
         ]);
     }
     

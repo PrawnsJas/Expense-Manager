@@ -40,6 +40,7 @@ export default {
     console.log('Expenses data:', props.expenses);
 
     const chartData = computed(() => {
+      console.log(chartData.value);
       return props.expenses.map(expense => ({
         category: expense.category.name,
         total_amount: parseFloat(expense.total_amount),
